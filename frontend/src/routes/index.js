@@ -7,6 +7,7 @@ import { AllPosts } from "../pages/posts/AllPosts";
 import { CreatePost } from "../pages/posts/CreatePost";
 import { Dashboard } from "../pages/dashboard/Dashboard";
 import PrivateRoute from "../api/PrivateRoute";
+import { EditPost } from "../pages/posts/EditPost";
 
 
 export const routes = [
@@ -23,22 +24,26 @@ export const routes = [
         element: <SignUp />,
     },
     {
-        path: "/users/:id",
+        path: "/users/:userId",
         element:
             <PrivateRoute>
                 <Dashboard />
             </PrivateRoute>,
         children: [
             {
-                path: "/users/:id/",
+                path: "/users/:userId/",
                 element: <AllPosts />
             },
             {
-                path: "/users/:id/posts",
+                path: "/users/:userId/posts",
                 element: <MyPosts />
             },
             {
-                path: "/users/:id/create_post",
+                path: "/users/:userId/posts/:postId/update",
+                element: <EditPost />
+            },
+            {
+                path: "/users/:userId/create",
                 element: <CreatePost />
             }
         ]

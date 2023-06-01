@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 export const CreatePost = () => {
     const params = useParams();
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
-    const authorId = params.id;
+    const authorId = params.userId;
     const token = window.localStorage.getItem("token");
+    const navigate = useNavigate();
 
     const handleTextarea = (e) => {
         e.preventDefault();
@@ -21,16 +22,19 @@ export const CreatePost = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(JSON.stringify({title, content, authorId}))
+        console.log(params);
 
         try {
             await fetch('http://localhost:8080/posts/', {
                 method: 'POST',
                 headers: {
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify({ title, content, authorId })
             });
+
+            navigate(-1);
         } catch (error) {
             console.error('Error during login:', error);
         }

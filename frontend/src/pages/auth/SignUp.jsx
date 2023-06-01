@@ -26,7 +26,6 @@ export const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(name, email, password);
     // try {
     //   const response = await fetch('http://localhost:8080/auth/signin', {
     //     method: 'POST',

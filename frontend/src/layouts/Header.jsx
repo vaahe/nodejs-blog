@@ -7,8 +7,8 @@ import { selectUser } from '../redux/features/user/userSlices';
 
 export const Header = () => {
     const [isDropped, setIsDropped] = useState(false);
-    const user = useSelector(selectUser);
-    const firstChar = user.user.name.slice(0, 1);
+    const users = useSelector(selectUser);
+    const firstChar = users.user.name.slice(0, 1);
 
 
     const handleDropdown = () => {
@@ -29,7 +29,7 @@ export const Header = () => {
                 <button onClick={handleDropdown}>
                     <div className='flex items-center'>
                         <div className='h-[40px] w-[40px] rounded-full bg-green-700 text-white text-2xl text-center leading-[38px] font-semibold mx-2'>{firstChar}</div>
-                        <span>{user.user.name}</span>
+                        <span>{users.user.name}</span>
                     </div>
                 </button>
                 <div className={`${isDropped ? 'visible' : 'invisible'} ${styles.dropdown.main}`}>
