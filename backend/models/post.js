@@ -2,13 +2,13 @@ const pool = require("../config/database");
 
 class Post {
     static async getPosts(params) {
-        const res = await pool.query('SELECT * FROM posts ORDER BY createdat ASC', params);
+        const res = await pool.query('SELECT * FROM posts ORDER BY createdat DESC', params);
 
         return res.rows;
     }
 
-    static async getPostsById(params) {
-        const res = await pool.query('SELECT * FROM posts WHERE authorid = $1', params);
+    static async getPostsByAuthorId(params) {
+        const res = await pool.query('SELECT * FROM posts WHERE authorid = $1 ORDER BY createdat DESC', params);
 
         return res.rows;
     }

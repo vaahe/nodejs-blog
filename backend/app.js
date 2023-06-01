@@ -22,7 +22,7 @@ app.use(
     })
 );
 
-app.use("/posts", verifyToken, postRoutes);
+app.use("/posts", postRoutes);
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 

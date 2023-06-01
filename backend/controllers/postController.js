@@ -6,22 +6,22 @@ const getPosts = async (req, res) => {
     return res.status(200).json(posts);
 }
 
-const getPostsById = async (req, res) => {
+const getPostsByAuthorId = async (req, res) => {
     const id = parseInt(req.params.id);
-    const post = await Post.getPostsById([id]);
+    const post = await Post.getPostsByAuthorId([id]);
 
     return res.json(post);
 }
 
 const createPost = async (req, res) => {
     const createdAt = new Date(Date.now()).toISOString().replace('T', ' ').replace('Z', ' ');
-    console.log(req.body);
-    const { title, content, authorId } = req.body;
-    // console.log(title, content, authorId)
-    // const post = await Post.createPost([title, content, authorId, createdAt]);
 
-    // res.sendStatus(201).sendStatus(`Post added from author with ${authorId} id`);
-    // return res.json(post);
+    const { title, content, authorId } = req.body;
+    const post = await Post.createPost([title, content, authorId, createdAt]);
+
+    res.status(201).send(`Post added from author with ${authorId} id`);
+
+    return res.json(post);
 }
 
 const updatePost = async (req, res) => {
@@ -36,17 +36,16 @@ const updatePost = async (req, res) => {
 
     const updatedPost = await Post.updatePost([title, content, postId]);
 
-    res.status(200).sendStatus(`Post modified with ID: ${postId}`);
+    res.status(200).send(`Post modified with ID: ${postId}`);
     return res.json(updatedPost);
 }
 
 const deletePost = async (req, res) => {
     const id = parseInt(req.params.id);
 
-    const deletedPost = await Post.deletePost([id]);
-    console.log(deletedPost);
-    res.sendStatus(200).send(`Post deleted from user #${id}`);
-    res.json(deletedPost);
+    await Post.deletePost([id]);
+
+    res.status(200).send(`Post deleted with ID: ${id}`);
 }
 
-module.exports = { getPosts, getPostsById, createPost, updatePost, deletePost };
+module.exports = { getPosts, getPostsByAuthorId, createPost, updatePost, deletePost };
