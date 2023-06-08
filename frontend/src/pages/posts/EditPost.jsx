@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
+
 import { selectMyPosts } from "../../redux/features/post/postSlices";
+
 
 export const EditPost = () => {
     const params = useParams();
@@ -27,8 +29,6 @@ export const EditPost = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        console.log(JSON.stringify({ title, content, postId }));
 
         try {
             await fetch(`http://localhost:8080/posts/${postId}`, {

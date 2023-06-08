@@ -1,13 +1,12 @@
 import { Error } from "../pages/Error";
 import { SignIn } from "../pages/auth/SignIn";
 import { SignUp } from "../pages/auth/SignUp";
-// import PrivateRoute from "../api/PrivateRoute";
 import { MyPosts } from "../pages/posts/MyPosts";
+import { EditPost } from "../pages/posts/EditPost";
 import { AllPosts } from "../pages/posts/AllPosts";
 import { CreatePost } from "../pages/posts/CreatePost";
+import { PrivateRoute } from "../helpers/PrivateRoute";
 import { Dashboard } from "../pages/dashboard/Dashboard";
-import PrivateRoute from "../api/PrivateRoute";
-import { EditPost } from "../pages/posts/EditPost";
 
 
 export const routes = [

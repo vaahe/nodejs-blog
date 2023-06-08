@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { styles } from '../styles/Header';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
+import { styles } from '../styles/Header';
 import { selectUser } from '../redux/features/user/userSlices';
 
 
@@ -9,7 +10,6 @@ export const Header = () => {
     const [isDropped, setIsDropped] = useState(false);
     const users = useSelector(selectUser);
     const firstChar = users.user.name.slice(0, 1);
-
 
     const handleDropdown = () => {
         setIsDropped(!isDropped);

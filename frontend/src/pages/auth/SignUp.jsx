@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
+
 import { styles } from '../../styles/SignUp';
+
 
 export const SignUp = () => {
   const navigate = useNavigate();
@@ -26,36 +28,36 @@ export const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // try {
-    //   const response = await fetch('http://localhost:8080/auth/signin', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ email, password })
-    //   });
 
+    try {
+      const response = await fetch('http://localhost:8080/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password })
+      });
 
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     console.log(data);
-    //     const token = await data.token;
-    //     const id = await data.user.id;
+      if (response.ok) {
+        const data = await response.json();
 
-    //     localStorage.setItem('token', token);
+        const token = await data.token;
+        const id = await data.user.id;
 
-    //     navigate(`/users/${id}`);
-    //   } else {
-    //     console.error('login failed');
-    //   }
-    // } catch (error) {
-    //   console.error('Error during login:', error);
-    // }
+        localStorage.setItem('token', token);
+
+        navigate(`/users/${id}`);
+      } else {
+        console.error('login failed');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
 
     setName('');
     setEmail('');
     setPassword('');
-  };
+  }
 
   return (
     <div className={styles.container}>
@@ -109,9 +111,7 @@ export const SignUp = () => {
           <p className={styles.footer}>
             Go back to
             {" "}
-            <Link to="/signin" className={styles.signUp}>
-              Sign in
-            </Link>
+            <Link to="/signin" className={styles.signUp}>Sign in</Link>
           </p>
         </form>
       </div>

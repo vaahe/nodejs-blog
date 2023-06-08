@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import repositoryType from "../"
+
 
 export const postSlices = createSlice({
     name: 'posts',
     initialState: {
-        allPosts: [],
+        allPosts: repositoryType[],
         myPosts: []
     },
     reducers: {

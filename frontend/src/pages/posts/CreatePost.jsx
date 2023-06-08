@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
+
 export const CreatePost = () => {
     const params = useParams();
+    const navigate = useNavigate();
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
     const authorId = params.userId;
     const token = window.localStorage.getItem("token");
-    const navigate = useNavigate();
 
     const handleTextarea = (e) => {
         e.preventDefault();
@@ -22,7 +23,6 @@ export const CreatePost = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(params);
 
         try {
             await fetch('http://localhost:8080/posts/', {

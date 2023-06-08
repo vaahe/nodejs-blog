@@ -1,3 +1,3 @@
 export const styles = {
-    container: 'w-screen h-screen flex flex-col justify-center'
+    container: 'w-full h-screen flex flex-col justify-center'
 }

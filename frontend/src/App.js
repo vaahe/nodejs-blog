@@ -4,16 +4,12 @@ import { Layout } from './layouts';
 import { routes } from './routes';
 
 
-const App = () => {
+export const App = () => {
   const element = useRoutes(routes);
 
   return (
-    <div className="App">
-      <Layout>
-        {element}
-      </Layout>
-    </div>
+    <Layout>
+      {element}
+    </Layout>
   );
 }
-
-export default App;

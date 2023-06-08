@@ -9,17 +9,13 @@ export const Button = ({ title, count, img, onClick }) => {
                     <div className="flex justify-center text-indigo-500 dark:text-white items-center bg-white dark:bg-[#0F172A] rounded-md flex-none w-8 h-8 md:w-12 md:h-12 text-3xl">
                         {img}
                     </div>
-                    <div className="flex flex-col justify-around flex-grow ml-5 text-white">
-                        <div className="text-xs whitespace-nowrap">
-                            {title}
-                        </div>
-                        <div className="">
-                            {count}
+                    <div className="flex items-center flex-grow ml-5 text-white">
+                        <div className="text-lg whitespace-nowrap text-2xl">
+                            {title} {count && <span>({count})</span>}
                         </div>
                     </div>
                 </div>
-
-                <div className="flex items-center flex-none text-white">
+                <div className="flex items-center flex-none text-white text-2xl">
                     <MdKeyboardArrowRight />
                 </div>
             </div>

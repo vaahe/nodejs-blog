@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { styles } from '../../styles/SignIn';
+
 import { useDispatch } from 'react-redux';
+import { styles } from '../../styles/SignIn';
 import { loggedIn } from '../../redux/features/user/userSlices';
+
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -33,12 +35,10 @@ export const SignIn = () => {
         body: JSON.stringify({ email, password })
       });
 
-
       if (response.ok) {
         const data = await response.json();
         dispatch(loggedIn(data));
-        console.log(data);
-        
+
         const token = await data.token;
         const id = await data.user.id;
 
