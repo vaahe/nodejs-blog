@@ -1,6 +1,7 @@
 const app = require("./app");
 const { PORT } = require('./config/');
 
+
 const start = () => {
     try {
         app.listen(PORT, () => {

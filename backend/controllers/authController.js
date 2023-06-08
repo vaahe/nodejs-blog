@@ -1,57 +1,70 @@
-const pool = require('../config/database');
+const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-// const Auth = require('../models/auth');
+const Auth = require('../models/auth');
+
 
 const signUp = async (req, res) => {
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().required()
+    });
+
     try {
+        const { error } = schema.validate(req.body);
+
+        if (error) {
+            return res.status(400).json({ message: error.details[0].message });
+        }
+
         const { name, email, password } = req.body;
 
-        const usernameExists = await pool.query(
-            'SELECT * FROM users WHERE email = $1',
-            [email]
-        );
+        const existedUser = await Auth.findByEmail(email);
 
-        if (usernameExists.rowCount > 0) {
-            res.status(409).send('Username already exists');
-            return;
+        if (existedUser) {
+            return res.status(409).json({ message: 'User with the same email already exists' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await Auth.signUp([name, email, hashedPassword]);
 
-        await pool.query(
-            'INSERT INTO users (name, email, password) VALUES ($1, $2, $3)',
-            [name, email, hashedPassword]
-        );
-
-        res.status(201).send('User registered successfully!');
+        return res.status(201).json({ message: 'User registered successfully', user: user });
     } catch (error) {
-        console.error('Error during signup:', error);
-        res.status(500).send('An error occurred during signup');
+        console.error('Error during creation of user:', error);
+
+        return res.status(500).json({ message: 'Internal server error' });
     }
 }
 
 const signIn = async (req, res) => {
+    const schema = Joi.object({
+        email: Joi.string().email().required(),
+        password: Joi.string().required()
+    });
+
     try {
+        const { error } = schema.validate(req.body);
+
+        if (error) {
+            return req.status(404).json({ message: error.details[0].message });
+        }
+
         const { email, password } = req.body;
-        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-        const user = result.rows[0];
-        console.log(user.id)
+
+        const user = await Auth.signIn(email);
 
         if (!user) {
-            res.status(401).send('Invalid credentials');
-            return;
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
         const passwordMatch = await bcrypt.compare(password, user.password);
 
         if (passwordMatch) {
-
             const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, {
                 expiresIn: '1h',
             });
 
-            console.log(token);
             res.json({
                 token,
                 user: {
@@ -60,13 +73,12 @@ const signIn = async (req, res) => {
                     email: user.email
                 }
             });
-            // res.send('Login successful!');
         } else {
             res.status(401).send('Authentication failed');
         }
     } catch (error) {
         console.error('Error during login:', error);
-        res.status(500).send('An error occurred during login');
+        return res.status(500).json({ message: 'Internal server error' });
     }
 }
 
